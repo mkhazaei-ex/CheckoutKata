@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CheckoutKata.Models
 {
-    public class DiscountPerQuantityPromotion : Promotion
+    public class DiscountPerQuantityPromotion : IPromotion
     {
         public DiscountPerQuantityPromotion(int quantity, int discountPercentage)
         {
@@ -18,10 +18,10 @@ namespace CheckoutKata.Models
 
         public double DiscountPercentage { get; init; }
 
-        public override double Apply(Product product, int quantity)
+        public double Apply(double unitPrice, int quantity)
         {
-            return quantity % Quantity * product.Price +
-                   quantity / Quantity * Quantity * (100.0 - DiscountPercentage) / 100.0 * product.Price;
+            return quantity % Quantity * unitPrice +
+                   quantity / Quantity * Quantity * (100.0 - DiscountPercentage) / 100.0 * unitPrice;
         }
     }
 }

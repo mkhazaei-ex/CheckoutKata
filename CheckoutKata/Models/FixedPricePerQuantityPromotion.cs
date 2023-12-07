@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CheckoutKata.Models
 {
-    public class FixedPricePerQuantityPromotion : Promotion
+    public class FixedPricePerQuantityPromotion : IPromotion
     {
         public FixedPricePerQuantityPromotion(int quantity, int fixedPrice)
         {
@@ -18,9 +18,9 @@ namespace CheckoutKata.Models
 
         public int FixedPrice { get; init; }
 
-        public override double Apply(Product product, int quantity)
+        public double Apply(double unitPrice, int quantity)
         {
-            return quantity % Quantity * product.Price +
+            return quantity % Quantity * unitPrice +
                    quantity / Quantity * FixedPrice;
         }
     }

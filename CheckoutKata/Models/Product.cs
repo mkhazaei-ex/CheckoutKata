@@ -8,8 +8,10 @@ namespace CheckoutKata.Models
 {
     public record Product
     {
-        public Product(string sKU, double price, Promotion? promotion = null)
+        public Product(string sKU, double price, IPromotion? promotion = null)
         {
+            if (price < 0) throw new ArgumentOutOfRangeException(nameof(price), $"must be equal or bigger than zero");
+
             SKU = sKU;
             Price = price;
             Promotion = promotion;
@@ -20,6 +22,6 @@ namespace CheckoutKata.Models
         public double Price { get; init; }
 
         // each Product accept only one type of promotion
-        public Promotion? Promotion { get; init; }
+        public IPromotion? Promotion { get; init; }
     }
 }
