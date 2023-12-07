@@ -9,7 +9,7 @@ namespace CheckoutKata
 {
     public class CheckoutService
     {
-        private IQueryable<Product> _products;
+        private readonly IQueryable<Product> _products;
         private readonly ICollection<OrderItem> _items;
 
         public CheckoutService(string user, IQueryable<Product> products)
@@ -23,12 +23,14 @@ namespace CheckoutKata
 
         public IEnumerable<IReadOnlyOrderItem> Items => _items;
 
-        public double Discount { get; private set; }
+        public double Discount { get; private set; } = 0;
 
-        public double Total { get; private set; }
+        public double Total { get; private set; } = 0;
 
         public void Add(string sku, int quantity)
         {
+            if (quantity <= 0) throw new ArgumentOutOfRangeException(nameof(quantity), $"must be bigger than zero");
+
             var item = _items.FirstOrDefault(m => m.ProductSKU == sku);
             if (item != null)
             {
